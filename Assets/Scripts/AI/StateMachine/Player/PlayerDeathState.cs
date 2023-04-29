@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using PenguinPlunge.Core;
+using System.Collections;
 using UnityEngine;
 
 namespace PenguinPlunge.AI
 {
-    public class PlayerDeathState : FSMState<PlayerTransition, PlayerStateID>
+    public class PlayerDeathState : PlayerFSMState
     {
         public PlayerDeathState() : base() 
         {
@@ -12,9 +13,15 @@ namespace PenguinPlunge.AI
 
         public override void EvaluateState() { }
 
-        public override void OnEnter() { }
+        public override void OnEnter() 
+        {
+            GameEvent.Trigger(GameEventType.GameOver);
+        }
 
-        public override void RunState() { }
+        public override void RunState() 
+        {
+            PlayDeathAnimation();
+        }
 
         public override void FixedRunState() { }
 
@@ -23,5 +30,17 @@ namespace PenguinPlunge.AI
         public override void Initialise() { }
 
         public override void Dispose() { }
+
+        private void PlayDeathAnimation()
+        {
+            if (Mathf.Approximately(FSM.Rigidbody.velocity.y, 0))
+            {
+                FSM.Animator.Play("Death");
+            }
+            else
+            {
+                FSM.Animator.Play("Fall");
+            }
+        }
     }
 }

@@ -4,18 +4,33 @@ using UnityEngine;
 
 namespace PenguinPlunge.AI
 {
-    public class PlayerRunState : FSMState<PlayerTransition, PlayerStateID>
+    public class PlayerRunState : PlayerFSMState
     {
         public PlayerRunState() : base()
         {
-            stateID = PlayerStateID.Death;
+            stateID = PlayerStateID.Run;
         }
 
-        public override void EvaluateState() { }
+        public override void EvaluateState() 
+        {
+            if (HitByObstacle())
+            {
+                FSM.TransitionToState(PlayerTransition.Hit);
+            }
+            if (Input.GetKey(KeyCode.Space))
+            {
+                FSM.TransitionToState(PlayerTransition.JumpPressed);
+            }
+        }
 
-        public override void OnEnter() { }
+        public override void OnEnter() 
+        {
+            FSM.Animator.Play("Run");
+        }
 
-        public override void RunState() { }
+        public override void RunState() 
+        {
+        }
 
         public override void FixedRunState() { }
 

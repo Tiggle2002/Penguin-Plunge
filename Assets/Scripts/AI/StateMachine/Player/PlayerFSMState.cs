@@ -1,35 +1,42 @@
 using UnityEngine;
 
-public class PlayerFSMState : FSMState<PlayerTransition, PlayerStateID>
+namespace PenguinPlunge.AI
 {
-    protected PlayerFSM FSM;
-
-    public PlayerFSMState()
+    public class PlayerFSMState : FSMState<PlayerTransition, PlayerStateID>
     {
-        this.FSM = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerFSM>();
+        protected PlayerFSM FSM;
+        protected LayerMask obstacleLayer;
+
+        public PlayerFSMState()
+        {
+            this.FSM = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerFSM>();
+            obstacleLayer = LayerMask.GetMask("Obstacle");
+        }
+
+        #region FSM Events
+        public override void EvaluateState() { }
+
+        public override void OnEnter() { }
+
+        public override void RunState() { }
+
+        public override void FixedRunState() { }
+
+        public override void OnExit() { }
+        #endregion
+
+        #region Interface Methods
+        public override void Initialise()
+        {
+
+        }
+
+        public override void Dispose()
+        {
+
+        }
+        #endregion
+
+        protected bool HitByObstacle() => FSM.Collider.IsTouchingLayers(obstacleLayer);
     }
-
-    #region FSM Events
-    public override void EvaluateState() { }
-    
-    public override void OnEnter() { }
-
-    public override void RunState() { }
-
-    public override void FixedRunState() { }
-
-    public override void OnExit() { }
-    #endregion
-
-    #region Interface Methods
-    public override void Initialise() 
-    {
-    
-    }
-
-    public override void Dispose()
-    {
-
-    }
-    #endregion
 }

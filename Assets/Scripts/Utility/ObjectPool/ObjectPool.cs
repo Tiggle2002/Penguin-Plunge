@@ -21,17 +21,19 @@ namespace PenguinPlunge.Pooling
     public class ObjectPool<T> : IPool<T> where T : MonoBehaviour, IPoolable<T>
     {
         public int Count => objects.Count;
+        public bool AtCapacity => objects.Count == poolSize;
 
         private Stack<T> objects = new();
 
         private GameObject prefabToPool;
         private Transform parentTransform;
-
+        private int poolSize;
 
         public ObjectPool(GameObject prefabToPool, int poolSize, Transform parentTransform = null)
         {
             this.prefabToPool = prefabToPool;
             this.parentTransform = parentTransform;
+            this.poolSize = poolSize;
 
             for (int i = 0; i < poolSize; i++)
             {
@@ -51,22 +53,17 @@ namespace PenguinPlunge.Pooling
         
         public T Get() => GetOrCreate();
 
-        public T GetOrCreate()
+        private T GetOrCreate()
         {
             if (Count == 0)
             {
-                return Create();
+                return null;
             }
 
             var t = objects.Pop();
             t.gameObject.SetActive(true);
             t.OnGet();
             return t;
-        }
-
-        public GameObject PullGameObject()
-        {
-            return Get().gameObject;
         }
 
         public void Return(T t)

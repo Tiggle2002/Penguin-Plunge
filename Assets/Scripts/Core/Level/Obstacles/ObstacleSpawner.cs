@@ -1,18 +1,16 @@
+using PenguinPlunge.Pooling;
+using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleSpawner : MonoBehaviour
+namespace PenguinPlunge.Core
 {
-    // Start is called before the first frame update
-    void Start()
+    public abstract class ObstacleSpawner : SerializedMonoBehaviour
     {
-        
-    }
+        public abstract bool Finished();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        public abstract void Spawn();
+     }
 }

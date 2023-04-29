@@ -26,6 +26,16 @@ public abstract class FSM<Transition, State> : SerializedMonoBehaviour, IDisposa
 
     #endregion
 
+#region Update Methods
+    private void Awake() => AwakeFSM();
+
+    private void Start() => InitialiseFSM();
+
+    private void Update() => UpdateFSM();
+
+    private void FixedUpdate() => FixedUpdateFSM();
+    #endregion
+    
     #region State Virtual Methods
     protected abstract void AwakeFSM();
 
@@ -34,16 +44,6 @@ public abstract class FSM<Transition, State> : SerializedMonoBehaviour, IDisposa
     protected abstract void UpdateFSM();
 
     protected abstract void FixedUpdateFSM();
-    #endregion
-
-    #region Update Methods
-    private void Awake() => AwakeFSM();
-
-    private void Start() => InitialiseFSM();
-
-    private void Update() => UpdateFSM();
-
-    private void FixedUpdate() => FixedUpdateFSM();
     #endregion
 
     #region State Management

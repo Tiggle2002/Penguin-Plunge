@@ -2,58 +2,59 @@ using PenguinPlunge.AI;
 using System.Collections;
 using UnityEngine;
 
-public enum PlayerTransition { Grounded, JumpPressed, Hurt }
-
-public enum PlayerStateID { Run, Swim, Death }
-
-public class PlayerFSM : FSM<PlayerTransition, PlayerStateID>
+namespace PenguinPlunge.AI
 {
+    public enum PlayerTransition { Grounded, JumpPressed, Hit }
 
-    #region References 
-    public Rigidbody2D Rigidbody { get; private set; }
-    public BoxCollider2D Collider { get; private set; }
-    public Animator Animator { get; private set; }
-    #endregion
+    public enum PlayerStateID { Run, Swim, Death }
 
-    #region Update Methods
-    protected override void AwakeFSM()
+    public class PlayerFSM : FSM<PlayerTransition, PlayerStateID>
     {
-        Rigidbody = GetComponent<Rigidbody2D>();
-        Collider = GetComponent<BoxCollider2D>();
-        Animator = GetComponentInChildren<Animator>();
-    }
+        public Rigidbody2D Rigidbody { get; private set; }
+        public BoxCollider2D Collider { get; private set; }
+        public Animator Animator { get; private set; }
+        public Movement Movement { get; private set; }
 
-    protected override void InitialiseFSM()
-    {
-        ConstructStates();
-    }
+        protected override void AwakeFSM()
+        {
+            Rigidbody = GetComponent<Rigidbody2D>();
+            Collider = GetComponent<BoxCollider2D>();
+            Animator = GetComponentInChildren<Animator>();
+            Movement = GetComponentInChildren<Movement>();
+            ConstructStates();
+        }
 
-    protected override void UpdateFSM()
-    {
-        CurrentState.RunState();
-        CurrentState.EvaluateState();
-    }
+        protected override void InitialiseFSM() 
+        {
+            SetState(PlayerStateID.Swim);
+        }
 
-    protected override void FixedUpdateFSM()
-    {
-        CurrentState.FixedRunState();
-    }
-    #endregion
+        protected override void UpdateFSM()
+        {
+            CurrentState.RunState();
+            CurrentState.EvaluateState();
+        }
 
-    protected void ConstructStates()
-    {
-        PlayerRunState runState = new();
-        runState.AddTransition(PlayerTransition.Hurt, PlayerStateID.Death);
-        runState.AddTransition(PlayerTransition.Grounded, PlayerStateID.Run);
+        protected override void FixedUpdateFSM()
+        {
+            CurrentState.FixedRunState();
+        }
 
-        PlayerSwimState swimState = new();
-        swimState.AddTransition(PlayerTransition.Hurt, PlayerStateID.Death);
-        swimState.AddTransition(PlayerTransition.Grounded, PlayerStateID.Run);
+        protected void ConstructStates()
+        {
+            PlayerRunState runState = new();
+            runState.AddTransition(PlayerTransition.Hit, PlayerStateID.Death);
+            runState.AddTransition(PlayerTransition.JumpPressed, PlayerStateID.Swim);
 
-        PlayerDeathState deathState = new();
+            PlayerSwimState swimState = new();
+            swimState.AddTransition(PlayerTransition.Hit, PlayerStateID.Death);
+            swimState.AddTransition(PlayerTransition.Grounded, PlayerStateID.Run);
 
-        AddState(runState);
-        AddState(swimState);
-        AddState(deathState);
+            PlayerDeathState deathState = new();
+
+            AddState(runState);
+            AddState(swimState);
+            AddState(deathState);
+        }
     }
 }

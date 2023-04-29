@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8002347759d21f47a7440cec6932ddf, type: 3}
+  m_Name: SmallJellyfishObstacleData
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  obstacleSize: 0
+  sprite: {fileID: 21300000, guid: 640c8fc36dfc14d4eb38514f2a507359, type: 3}
+  layouts:
+  - position: 0
+    height: {x: 32, y: 32}
+    availableRotations: 000000002d0000003b010000
+  - position: 1
+    height: {x: 26, y: 26}
+    availableRotations: 00000000
+  - position: 2
+    height: {x: 19, y: 19}
+    availableRotations: 000000002d0000003b010000

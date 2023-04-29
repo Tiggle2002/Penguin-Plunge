@@ -4,11 +4,11 @@ using System;
 
 namespace PenguinPlunge.Pooling
 {
-    public abstract class PoolObject : MonoBehaviour, IPoolable<PoolObject>
+    public class PoolObject : MonoBehaviour, IPoolable<PoolObject>
     {
         public Action<PoolObject> ReturnObject { get; set; }
 
-        public abstract void OnGet();
+        public void OnGet() { }
 
         private void ReturnToPool() => ReturnObject?.Invoke(this);
     }

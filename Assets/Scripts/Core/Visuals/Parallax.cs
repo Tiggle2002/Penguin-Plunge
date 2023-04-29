@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,10 @@ namespace PenguinPlunge.Visuals
     public class Parallax : MonoBehaviour
     {
         #region References
-        public List<ParallaxElement> layers;
+        [SerializeField, TitleGroup("Parallax Objects")]
+        private List<ParallaxElement> layers;
+        [SerializeField, HorizontalGroup("ParallaxModes")]
+        private bool X, Y;
         #endregion
 
         #region Private Variables
@@ -24,8 +28,8 @@ namespace PenguinPlunge.Visuals
 
             for (int i = 0; i < layers.Count; i++)
             {
-                speed.x = layers[i].horizontalSpeed;
-                speed.y = layers[i].verticalSpeed;
+                speed.x = X ? layers[i].horizontalSpeed : 0;
+                speed.y = Y ? layers[i].verticalSpeed : 0;
                 layers[i].parallaxObject.transform.position += Vector3.Scale(speed, distanceDifference);
             }
 

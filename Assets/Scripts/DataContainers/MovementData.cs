@@ -11,7 +11,7 @@ namespace PenguinPlunge.Data
         #region Speed Variables       
         [SerializeField, Range(0f, 100f), FoldoutGroup("Speed Settings")]
         public float maxSpeed = 4f;
-        [SerializeField, Range(0f, 100f), FoldoutGroup("Speed Settings")]
+        [SerializeField, Range(0f, 200f), FoldoutGroup("Speed Settings")]
         public float maxAcceleration = 35f;
         #endregion
 

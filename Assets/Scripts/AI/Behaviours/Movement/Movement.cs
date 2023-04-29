@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour
 
     #region References
     public Rigidbody2D rb { get; private set; }
-    [SerializeField, FoldoutGroup("References")] 
+    [SerializeField, FoldoutGroup("References")]
     private BoxCollider2D groundDetector;
 
     private LayerMask blockLayer;
@@ -28,35 +28,40 @@ public class Movement : MonoBehaviour
 
     public void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         blockLayer = LayerMask.GetMask("Ground");
+    }
+
+    public void Update()
+    {
+        PlayHorizontalMovementFeedback();
+        PlayVerticalMovementFeedback();
     }
 
     #region Movement Methods
     public bool Grounded => Physics2D.BoxCast(groundDetector.bounds.center, groundDetector.bounds.size, 0f, Vector2.down, movementData.groundCheckBoxSize, blockLayer);
 
-    private void PlayVerticalMovementFeedback()
+    public void PlayVerticalMovementFeedback()
     {
         if (verticalMovementFeedback == null) return;
 
-        if (!Grounded)
+        if (!Grounded && Input.GetKey(KeyCode.Space))
         {
             verticalMovementFeedback.PlayFeedbacks();
-            return;
         }
-        else if (verticalMovementFeedback.IsPlaying)
+        else
         {
             verticalMovementFeedback.StopFeedbacks();
         }
     }
 
-    private void PlayHorizontalMovementFeedback()
+    public void PlayHorizontalMovementFeedback()
     {
         if (horizontalMovementFeedback == null) return;
 
         if (Grounded)
         {
             horizontalMovementFeedback.PlayFeedbacks();
-            return;
         }
         else if (horizontalMovementFeedback.IsPlaying)
         {
@@ -71,7 +76,17 @@ public class Movement : MonoBehaviour
         PlayVerticalMovementFeedback();
     }
 
-    public void UpdateGravityScale() => rb.gravityScale = rb.Falling() ? movementData.downwardGravityScale : movementData.upwardGravityScale;
+    public void UpdateGravityScale()
+    {
+        if (Grounded)
+        {
+            rb.gravityScale = movementData.defaultGravityScale;
+        }
+        else
+        {
+            rb.gravityScale = rb.Falling() ? movementData.downwardGravityScale : movementData.upwardGravityScale;
+        }
+    }
 
     private IEnumerator PlayFeedbackOnLand()
     {
