@@ -6,7 +6,7 @@ namespace PenguinPlunge.Pooling
 {
     public interface IPool<T>
     {
-        T Get();
+        T Get(Vector2 position = default);
 
         void Return(T t);
     }
@@ -51,17 +51,15 @@ namespace PenguinPlunge.Pooling
             return newObj;
         }
         
-        public T Get() => GetOrCreate();
+        public T Get(Vector2 position = default) => GetOrCreate(position);
 
-        private T GetOrCreate()
+        private T GetOrCreate(Vector2 position = default)
         {
-            if (Count == 0)
-            {
-                return null;
-            }
+            if (Count == 0) return null;
 
             var t = objects.Pop();
             t.gameObject.SetActive(true);
+            t.transform.position = position;
             t.OnGet();
             return t;
         }

@@ -17,6 +17,9 @@ namespace PenguinPlunge.Data
         private Sprite sprite;
 
         [SerializeField]
+        private string animationName;
+
+        [SerializeField]
         private ObstacleLayout[] layouts = new ObstacleLayout[] { new ObstacleLayout(ObstaclePosition.Top), new ObstacleLayout(ObstaclePosition.Middle), new ObstacleLayout(ObstaclePosition.Bottom) };
 
         public ObstacleLayout GetLayoutForPosition(ObstaclePosition position) => layouts.First(layout => layout.MatchesPosition(position));
@@ -24,6 +27,11 @@ namespace PenguinPlunge.Data
         public void SetSprite(SpriteRenderer sr)
         {
             sr.sprite = sprite; 
+        }
+
+        public void PlayAnimation(Animator animator)
+        {
+            animator.Play(animationName);
         }
     }
 
@@ -34,7 +42,7 @@ namespace PenguinPlunge.Data
 
         [SerializeField, EnumToggleButtons, TitleGroup("Values for Position", Alignment = TitleAlignments.Centered), HideLabel]
         private ObstaclePosition position;
-        [SerializeField, HorizontalGroup("Values"), MinMaxSlider(0, 100f)]
+        [SerializeField, HorizontalGroup("Values")]
         private Vector2Int height;
         [SerializeField, HorizontalGroup("Values")]
         private int[] availableRotations;

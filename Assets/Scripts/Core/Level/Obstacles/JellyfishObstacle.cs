@@ -27,11 +27,13 @@ namespace PenguinPlunge.Core
 
         ObstacleData currentData;
 
+        private Animator animator;
         private SpriteRenderer sr;
         private BoxCollider2D bc;
 
         public void Awake()
         {
+            animator = GetComponentInChildren<Animator>();
             sr = GetComponentInChildren<SpriteRenderer>();
             bc = GetComponent<BoxCollider2D>();
         }
@@ -40,16 +42,19 @@ namespace PenguinPlunge.Core
         {
             if (size == Size.Small) 
             {
+                smallObstacleData.PlayAnimation(animator);
                 smallObstacleData.SetSprite(sr);
                 currentData = smallObstacleData;
             }
             else if (size == Size.Medium) 
             {
+                mediumObstacleData.PlayAnimation(animator);
                 mediumObstacleData.SetSprite(sr);
                 currentData = mediumObstacleData;
             }
             else if (size == Size.Large)
             {
+                largeObstacleData.PlayAnimation(animator);
                 largeObstacleData.SetSprite(sr);
                 currentData = largeObstacleData;
             }

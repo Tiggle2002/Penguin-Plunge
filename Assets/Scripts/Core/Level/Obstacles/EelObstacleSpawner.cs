@@ -2,12 +2,12 @@
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using System.Collections;
-using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace PenguinPlunge.Core
 {
-    public class EelObstacleSpawner : ObstacleSpawner
+    public class EelObstacleSpawner : BaseSpawner
     {
         [TableMatrix(HorizontalTitle = "Eel Layouts", DrawElementMethod = "DrawLayouts", ResizableColumns = false, RowHeight = 16), SerializeField]
         private bool[,] layouts = new bool[4, 6];
@@ -24,7 +24,7 @@ namespace PenguinPlunge.Core
 
         public override void Spawn() => ActivateALayout();
 
-        public override bool Finished() => !active;
+        public override bool IsFinished() => !active;
 
         [Button("RandomLayout")]
         private void ActivateALayout()
@@ -77,6 +77,7 @@ namespace PenguinPlunge.Core
             }
         }
 
+   
         private static bool DrawLayouts(Rect rect, bool value)
         {
             if (Event.current.type == EventType.MouseDown && rect.Contains(Event.current.mousePosition))     
@@ -85,10 +86,11 @@ namespace PenguinPlunge.Core
                 GUI.changed = true;
                 Event.current.Use();
             }
-
-            UnityEditor.EditorGUI.DrawRect(rect.Padding(1), value ? new Color(0.1f, 0.8f, 0.2f)  : new Color(0, 0,0, 0.5f));
-
+#if UNITY_EDITOR
+            EditorGUI.DrawRect(rect.Padding(1), value ? new Color(0.1f, 0.8f, 0.2f)  : new Color(0, 0,0, 0.5f));
+#endif
             return value;
         }
     }
+
 }

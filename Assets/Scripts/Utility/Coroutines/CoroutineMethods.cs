@@ -1,4 +1,4 @@
-using Sirenix.OdinInspector.Editor.Validation;
+using PenguinPlunge.Pooling;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -48,6 +48,22 @@ namespace PenguinPlunge.Utility
             valueSetter(endValue);
         }
 
+        public static void ExecuteAtEndOfEachFrame(this Action action, float duration, Action onDone = null) => CoroutineManager.Instance.StartCoroutine(PerformAtTheEndOfEachFrameForTimeCoroutine(action, duration, onDone));
+
+        public static IEnumerator PerformAtTheEndOfEachFrameForTimeCoroutine(this Action action, float duration, Action onDone = null)
+        {
+            float currentTime = 0;
+
+            while (currentTime < duration)
+            {
+                action();
+                currentTime += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+
+            onDone?.Invoke();
+        }
+
         public static void ExecuteEachFrame(this Action action, float duration, Action onDone = null) => CoroutineManager.Instance.StartCoroutine(PerformEachFrameForTimeCoroutine(action, duration, onDone));
 
         public static IEnumerator PerformEachFrameForTimeCoroutine(this Action action, float duration, Action onDone = null)
@@ -62,6 +78,28 @@ namespace PenguinPlunge.Utility
             }
 
             onDone?.Invoke();
+        }
+
+        public static void ReturnToPoolOnCondition<T>(this T objectToDisable, Func<bool> condition) where T : IPoolable<T>
+        {
+            DisableOnCondition().StartAsCoroutine();
+
+            IEnumerator DisableOnCondition()
+            {
+                yield return new WaitUntil(() => condition());
+                objectToDisable.ReturnObject(objectToDisable);
+            }
+        }
+
+        public static void StartWithDelay(this IEnumerator coroutine, float delay)
+        {
+            StartWithDelay().StartAsCoroutine();
+
+            IEnumerator StartWithDelay()
+            {
+                yield return new WaitForSeconds(delay);
+                coroutine.StartAsCoroutine();
+            }
         }
     }
 }

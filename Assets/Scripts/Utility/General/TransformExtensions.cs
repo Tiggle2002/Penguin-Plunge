@@ -23,9 +23,11 @@ namespace PenguinPlunge.Core
             transform.position = vector;
         }
 
-        public static bool IsRightToTransform(this Transform fromTransform, Transform toTransform) => SignOfDirectionFromTransform(fromTransform, toTransform) == 1;
-        public static bool IsLeftToTransform(this Transform fromTransform, Transform toTransform) => SignOfDirectionFromTransform(fromTransform, toTransform) == -1;
+        public static bool IsRightToTransform(this Transform fromTransform, Transform toTransform) => XSignOfDirectionFromTransform(fromTransform, toTransform) == 1;
+        public static bool IsLeftToTransform(this Transform fromTransform, Transform toTransform) => XSignOfDirectionFromTransform(fromTransform, toTransform) == -1;
 
-        public static float SignOfDirectionFromTransform(this Transform fromTransform, Transform toTransform) => Mathf.Sign(fromTransform.position.x - toTransform.position.x);
+        public static float XSignOfDirectionFromTransform(this Transform fromTransform, Transform toTransform) => Mathf.Sign(fromTransform.position.x - toTransform.position.x);
+        
+        public static float YSignOfDirectionToTransform(this Transform fromTransform, Transform toTransform) => Mathf.Sign(toTransform.position.y - fromTransform.position.y);
     }
 }

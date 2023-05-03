@@ -1,4 +1,7 @@
+using PenguinPlunge.Core;
+using System.Linq;
 using UnityEngine;
+using PenguinPlunge.Utility;
 
 namespace PenguinPlunge.AI
 {
@@ -38,5 +41,20 @@ namespace PenguinPlunge.AI
         #endregion
 
         protected bool HitByObstacle() => FSM.Collider.IsTouchingLayers(obstacleLayer);
+
+        public Obstacle GetObstacleHit()
+        {
+            Bounds overlapBox = new Bounds(FSM.Collider.bounds.center + (Vector3)FSM.Collider.offset, FSM.Collider.bounds.size);
+
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(overlapBox.center, overlapBox.size, 0);
+
+            if (colliders.Length > 0)
+            {
+                return colliders.First(collider => CollisionExtensions.LayerInLayerMask(collider.gameObject.layer, obstacleLayer) && collider.GetComponent<Obstacle>()).GetComponent<Obstacle>();
+            }
+            return null;
+        }
+
+
     }
 }

@@ -14,19 +14,21 @@ namespace PenguinPlunge.Core
         public void Awake()
         {
             playerPrefab = Resources.Load<GameObject>("RuntimePrefabs/PlayerPrefab");
+            Transform transform = SpawnPlayer().transform;
+            spawnFeedback.GetFeedbackOfType<MMF_DestinationTransform>().TargetTransform = transform;
         }
-        public IEnumerator SpawnPlayerAfterFeedbacks()
+
+        public void SpawnPlayerAfterFeedbacks()
         {
-            SpawnPlayer();
- 
-            yield return spawnFeedback?.PlayFeedbacksCoroutine(transform.position);
+            spawnFeedback.PlayFeedbacks();
         }
+
         public GameObject SpawnPlayer() => Instantiate(playerPrefab, transform.position, Quaternion.identity);
         public void OnEvent(GameEvent eventData)
         {
             if (eventData.type == GameEventType.GameStarted)
             {
-                StartCoroutine(SpawnPlayerAfterFeedbacks());
+                SpawnPlayerAfterFeedbacks();
             }
         }
         public void OnEnable() => this.Subscribe();

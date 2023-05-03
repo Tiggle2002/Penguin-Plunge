@@ -1,4 +1,5 @@
 ﻿using PenguinPlunge.Core;
+using Sirenix.OdinInspector;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -8,27 +9,17 @@ namespace PenguinPlunge.UI
 {
     public class ScoreDisplayer : MonoBehaviour
     {
-        TextMeshProUGUI highestScoreTMP;
-        TextMeshProUGUI scoreCounterTMP;
+        [SerializeField, FoldoutGroup("Component References"), Required]
+        private TextMeshProUGUI highestScoreTMP;
+        [SerializeField, FoldoutGroup("Component References"), Required]
+        private TextMeshProUGUI scoreCounterTMP;
 
-        public void Awake()
+        public void Update() => DisplayScoreCount();
+
+        private void DisplayScoreCount()
         {
-            scoreCounterTMP = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            highestScoreTMP = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        }
-
-        public void Update() => UpdateScoreCount();
-
-        private void UpdateScoreCount()
-        {
-            int scoreCount = ScoreCounter.Instance.Score;
-            int highestScore = PlayerPrefs.GetInt("highscore", 0);
-
-            scoreCounterTMP.text = $"{scoreCount}m";
-            if (scoreCount > highestScore)
-            {
-                highestScoreTMP.text = $"Highest Score : {scoreCount}m";
-            }
+            highestScoreTMP.DisplayHighScore();
+            scoreCounterTMP.DisplayScore();
         }
     }
 }

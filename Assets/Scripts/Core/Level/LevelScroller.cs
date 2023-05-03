@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PenguinPlunge.Utility;
+using System.Linq;
 
 namespace PenguinPlunge.Core
 {
@@ -16,20 +17,25 @@ namespace PenguinPlunge.Core
         [SerializeField, HideLabel, Title("Level Scrolling Acceleration", TitleAlignment = TitleAlignments.Centered)]
         private float acceleration = 0.1f;
 
-        [SerializeField, HideLabel, Title("Level Scrolling Speed", TitleAlignment = TitleAlignments.Centered)]
+        [SerializeField, HideLabel, Title("Max Scrolling Speed", TitleAlignment = TitleAlignments.Centered)]
         private float maxSpeed = 30f;
 
         private float currentSpeed;
 
-        public void Awake() => currentSpeed = initialSpeed;
+        public void Awake()
+        {
+            currentSpeed = initialSpeed;
+        }
 
         private IEnumerator Scroll()
         {
+            yield return new WaitForSeconds(0.75f);
+
             while (true) 
             {
                 transform.position += (Vector3)PositionChangeThisFrame();
                 currentSpeed += acceleration * Time.deltaTime;
-                Mathf.Clamp(currentSpeed, 0, maxSpeed);
+                currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed);
                 yield return null;
             }
         }
@@ -40,7 +46,9 @@ namespace PenguinPlunge.Core
             return Vector2.left * s;
         }
 
-        private IEnumerator EndScrolling()
+        private void EndScrollingImmediate() => StopAllCoroutines();
+
+        private IEnumerator EndScrollingOverTime()
         {
             yield return StartCoroutine(CoroutineMethods.ChangeValueOverTime(currentSpeed, 0, 3, s => currentSpeed = s));
             StopAllCoroutines();
@@ -54,7 +62,7 @@ namespace PenguinPlunge.Core
                     StartCoroutine(Scroll());
                     break;
                case GameEventType.GameOver:
-                    StartCoroutine(EndScrolling());
+                    EndScrollingImmediate();
                     break;
             }
         }

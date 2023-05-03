@@ -1,5 +1,6 @@
 using PenguinPlunge.Utility;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace PenguinPlunge.Core
@@ -10,15 +11,16 @@ namespace PenguinPlunge.Core
         public int HighScore => PlayerPrefs.GetInt("highscore", 0);
         public int Score => scoreCount;
 
-
         int scoreCount = 0;
-        int highestScore = 0;
         LevelScroller scroller;
 
         public override void Awake()
         {
             base.Awake();
             scroller = GetComponent<LevelScroller>();
+            ResetFishCount();
+
+            void ResetFishCount() => PlayerPrefs.SetInt("fishCount", 0); 
         }
 
         public IEnumerator CountWhileMoving()
@@ -33,10 +35,12 @@ namespace PenguinPlunge.Core
 
         public void CountScore()
         {
-            scoreCount = GetScore();
-            if (scoreCount > highestScore) 
+            int newScore = GetScore();
+            if (newScore <= scoreCount) return;
+
+            scoreCount = newScore;
+            if (scoreCount > HighScore) 
             {
-                highestScore = scoreCount;
                 PlayerPrefs.SetInt("highscore", scoreCount);
             }
         }

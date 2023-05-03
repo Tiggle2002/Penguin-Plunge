@@ -22,7 +22,7 @@ namespace PenguinPlunge.Core
         private MMF_Player eelSwimFeedback;
 
         private const float SwimAnimationLength = 2.5f;
-        private const float AttackAnimationLength = 2.5f;
+        private const float AttackAnimationLength = 2f;
         private const float SwimAwayAnimationLength = 2.5f;
 
         public void Awake()

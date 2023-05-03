@@ -1,9 +1,13 @@
+using PenguinPlunge.Core;
+using PenguinPlunge.Data;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public static class PhysicsMovement
 {
+    public static void HaltMovement(this Rigidbody2D rb) => rb.velocity = Vector2.zero;
+
     public static void HaltHorizontalMovementImmediate(this Rigidbody2D rb)
     {
         Vector2 velocity = rb.velocity;
@@ -106,6 +110,11 @@ public static class PhysicsMovement
     {
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
         rb.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    public static void UpdateGravityScale(this Rigidbody2D rb, IGravity gravity)
+    {
+        rb.gravityScale = rb.Falling() ? gravity.DownwardScale : gravity.UpwardScale;
     }
 }
 

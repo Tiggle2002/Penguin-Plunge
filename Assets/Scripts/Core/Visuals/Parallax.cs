@@ -20,7 +20,7 @@ namespace PenguinPlunge.Visuals
         private Vector3 distanceDifference;
         #endregion
 
-        public void FixedUpdate() => ApplyParallax();
+        public void Update() => ApplyParallax();
 
         private void ApplyParallax()
         {

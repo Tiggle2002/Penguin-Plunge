@@ -12,21 +12,18 @@ namespace PenguinPlunge.Core
     {
         public Action<SharkObstacle> ReturnObject { get; set; }
 
-        private float YDirectionToPlayer => Mathf.Sign(Player.Instance.transform.position.y - transform.position.y);
-
         [SerializeField]
         private GameObject sharkObj;
 
-        [SerializeField, FoldoutGroup("Sprite References")]
+        [SerializeField, FoldoutGroup("Component References")]
         private SpriteRenderer warningSpriteRenderer;
-        [SerializeField, FoldoutGroup("Sprite References")]
+        [SerializeField, FoldoutGroup("Component References")]
         private SpriteRenderer sharkSpriteRender;
 
         [SerializeField, FoldoutGroup("Sprite References")]
         private Sprite sharkWarningSprite;
         [SerializeField, FoldoutGroup("Sprite References")]
         private Sprite sharkIncomingSprite;
-
 
         [SerializeField, FoldoutGroup("Shark Feedback")]
         private MMF_Player sharkIncomingFeedback;
@@ -46,8 +43,8 @@ namespace PenguinPlunge.Core
 
         public void OnGet()
         {
-            sharkSwimFeedback.StopFeedbacks();
             SetSharkEnabled(false);
+            sharkSwimFeedback.StopFeedbacks();
             PlaceAtTopRight();
             PlaySharkWarningSequence();
             PlayFeedback();
@@ -77,19 +74,19 @@ namespace PenguinPlunge.Core
 
         private void AlignPositionToPlayerHeight() => transform.TranslateY(GetVerticalMovement());
 
-        private float GetVerticalMovement() => YDirectionToPlayer * verticalSpeed * Time.deltaTime;
+        private float GetVerticalMovement() => transform.YDirectionToPlayer() * verticalSpeed * Time.deltaTime;
 
         private void BeginSharkLaunch() => MoveSharkAfterFinalWarning().StartAsCoroutine();
 
         private IEnumerator MoveSharkAfterFinalWarning()
         {
             yield return new WaitForSeconds(FinalWarningDuration);
-
             SetSharkEnabled(true);
             SetSharkInitialPositionAndPlayFeedback();
             while (warningSpriteRenderer.VisibleByCamera() || transform.IsRightOfPlayer())
             {
-                transform.TranslateX(GetMovementX());
+                float vectorTranslationX = GetMovementX();
+                transform.TranslateX(vectorTranslationX);
                 yield return new WaitForFixedUpdate();
             }
             ReturnToSharkPoolAndStopFeedback();

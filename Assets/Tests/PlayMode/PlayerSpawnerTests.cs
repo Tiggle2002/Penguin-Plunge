@@ -25,7 +25,7 @@ namespace PenguinPlunge.Tests
             var spawner = obj.AddComponent<PlayerSpawner>();
             float maximumSpawnDelay = 3f; //Highly Likely Value Will Not Exceed 3 As The Game Starts Quickly
 
-            spawner.SpawnPlayerAfterFeedbacks().StartAsCoroutine();
+            spawner.SpawnPlayerAfterFeedbacks();
             yield return new WaitForSeconds(maximumSpawnDelay);
             Assert.IsNotNull(GameObject.FindGameObjectWithTag("Player"));
         }

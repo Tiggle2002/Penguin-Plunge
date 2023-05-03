@@ -10,9 +10,9 @@ namespace PenguinPlunge.Core
     public class ObstacleGenerator : MonoBehaviour, TEventListener<GameEvent>
     {
         [SerializeField]
-        private ObstacleSpawner[] spawners;
+        private BaseSpawner[] spawners;
 
-        private ObstacleSpawner currentSpawner;
+        private BaseSpawner currentSpawner;
 
         public void Update()
         {
@@ -23,19 +23,31 @@ namespace PenguinPlunge.Core
 
         private void SelectSpawnerAfterCurrentFinished()
         {
-            if (currentSpawner.Finished())
+            if (currentSpawner.IsFinished())
             {
                 currentSpawner = SelectObstacle();
                 currentSpawner.Spawn();
+
+                TryCombineSpawnerWithSharks();
             }
         }
+
+
         
-        private ObstacleSpawner SelectObstacle() => spawners.GetRandomElementExcluding(currentSpawner);
+        private BaseSpawner SelectObstacle() => spawners.GetRandomElementExcluding(currentSpawner);
 
         private void SetIntialSpawner()
         {
             currentSpawner = spawners.First(obs => obs is JellyfishSpawner);
             currentSpawner.Spawn();
+        }
+
+        private void TryCombineSpawnerWithSharks()
+        {
+            if (currentSpawner is JellyfishSpawner && UnityEngine.Random.value < 0.5)
+            {
+                spawners.First(spawner => spawner is SharkObstacleSpawner).Spawn();
+            }
         }
 
         public void OnEvent(GameEvent eventData)

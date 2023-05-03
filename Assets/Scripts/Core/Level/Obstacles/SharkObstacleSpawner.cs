@@ -1,24 +1,23 @@
-﻿using Codice.CM.Common;
-using MoreMountains.Feedbacks;
-using MoreMountains.Tools;
-using PenguinPlunge.Data;
-using PenguinPlunge.Pooling;
-using PenguinPlunge.Utility;
+﻿using PenguinPlunge.Pooling;
 using Sirenix.OdinInspector;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace PenguinPlunge.Core
 {
-    public class SharkObstacleSpawner : ObstacleSpawner
+    public class SharkObstacleSpawner : BaseSpawner
     {
         [SerializeField]
         private float sharkHorizontalSpeed;
         [SerializeField]
         private float sharkVerticalSpeed;
+        [SerializeField]
+        private float speedIncrease;
+        [SerializeField]
+        private float maxSpeed;
         private GameObject obstaclePrefab;
         private ObjectPool<SharkObstacle> objectPool;
+        private float timeBetweenSpawns = 2f;
 
         public void Awake()
         {
@@ -35,8 +34,9 @@ namespace PenguinPlunge.Core
             for (int i = 0; i < sharkCount; i++)
             {
                 ActivateShark();
-                yield return new WaitForSeconds(Random.Range(1f, 2f));
+                yield return new WaitForSeconds(timeBetweenSpawns);
             }
+            DecreaseTimeBetweenSpawns();
         }
 
         private void ActivateShark()
@@ -45,6 +45,20 @@ namespace PenguinPlunge.Core
             sharkObj.SetSpeed(sharkHorizontalSpeed, sharkVerticalSpeed);
         }
 
-        public override bool Finished() => objectPool.AtCapacity;
+        private void IncreaseSpeed()
+        {
+            sharkHorizontalSpeed += speedIncrease;
+            sharkVerticalSpeed += speedIncrease;
+            sharkHorizontalSpeed = Mathf.Clamp(sharkHorizontalSpeed, 0, maxSpeed);
+            sharkVerticalSpeed = Mathf.Clamp(sharkVerticalSpeed, 0, maxSpeed);
+        }
+
+        private void DecreaseTimeBetweenSpawns()
+        {
+            timeBetweenSpawns -= 0.3f;
+            timeBetweenSpawns = Mathf.Clamp(timeBetweenSpawns, 0.5f, 1.5f);
+        }
+
+        public override bool IsFinished() => objectPool.AtCapacity;
     }
 }
