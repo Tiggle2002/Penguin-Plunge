@@ -32,8 +32,6 @@ namespace PenguinPlunge.Core
             }
         }
 
-
-        
         private BaseSpawner SelectObstacle() => spawners.GetRandomElementExcluding(currentSpawner);
 
         private void SetIntialSpawner()

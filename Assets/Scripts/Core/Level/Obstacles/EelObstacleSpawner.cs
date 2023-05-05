@@ -9,50 +9,59 @@ namespace PenguinPlunge.Core
 {
     public class EelObstacleSpawner : BaseSpawner
     {
-        [TableMatrix(HorizontalTitle = "Eel Layouts", DrawElementMethod = "DrawLayouts", ResizableColumns = false, RowHeight = 16), SerializeField]
-        private bool[,] layouts = new bool[4, 6];
+        [TableMatrix(HorizontalTitle = "Eel Layouts", DrawElementMethod = "DrawTestLayout", ResizableColumns = false, RowHeight = 16), SerializeField]
+        private int[,] layouts = new int[4, 6];
 
-        [SerializeField]
         private EelObstacle[] eelObstacles;
 
         private bool active;
 
         public void Awake()
         {
+            eelObstacles = GetComponentsInChildren<EelObstacle>(true);
             eelObstacles.Sort(SortByHeight);
         }
 
-        public override void Spawn() => ActivateALayout();
+        public override void Spawn() => ActivateLayout();
 
         public override bool IsFinished() => !active;
 
-        [Button("RandomLayout")]
-        private void ActivateALayout()
+        [Button("New Random Layout")]
+        private void ActivateLayout()
         {
-            bool[] layout = GetRandomLayout();
+            int[] layout = GetRandomLayout();
 
             for (int i = 0; i < layout.Length; i++)
             {
-                eelObstacles[i].gameObject.SetActive(layout[i]);
-                if (layout[i])
+                if (layout[i] == 0) //None
                 {
-                    eelObstacles[i].Initiate();
+                    continue;
+                }
+
+                eelObstacles[i].gameObject.SetActive(true);
+                if (layout[i] == 1) //Early
+                {
+                    eelObstacles[i].ActivateImmediate();
+                }
+                if (layout[i] == 2) //Late
+                {
+                    eelObstacles[i].ActivateLate();
                 }
             }
             SetFinished().StartAsCoroutine();
+
+             IEnumerator SetFinished()
+            {
+                active = true;
+                yield return new WaitForSeconds(7.5f);
+                active = false;
+            }
         }
 
-        private IEnumerator SetFinished()
-        {
-            active = true;
-            yield return new WaitForSeconds(7.5f);
-            active = false; 
-        }
-
-        private bool[] GetRandomLayout()
+        private int[] GetRandomLayout()
         {
             int randomIndex = Random.Range(0, layouts.GetLength(0));
-            bool[] layout = new bool[layouts.GetLength(1)];
+            int[] layout = new int[layouts.GetLength(1)];
 
             for (int i = 0; i < layout.Length; i++)
             {
@@ -77,7 +86,32 @@ namespace PenguinPlunge.Core
             }
         }
 
-   
+        private static int DrawTestLayout(Rect rect, int value)
+        {
+            if (Event.current.type == EventType.MouseDown && rect.Contains(Event.current.mousePosition))
+            {
+                value++;
+                value %= 3;
+                GUI.changed = true;
+                Event.current.Use();
+            }
+
+#if UNITY_EDITOR
+            EditorGUI.DrawRect(rect.Padding(1), GetSquareColor());
+#endif
+            return value;
+
+            Color GetSquareColor()
+            {
+                return value switch
+                {
+                    0 => new Color(0, 0, 0, 0.5f), //None
+                    1 => new Color(1, 0, 0, 1f), //Red
+                    2 => new Color(0.1f, 0.8f, 0.2f) //Green
+                };
+            }
+        }
+
         private static bool DrawLayouts(Rect rect, bool value)
         {
             if (Event.current.type == EventType.MouseDown && rect.Contains(Event.current.mousePosition))     

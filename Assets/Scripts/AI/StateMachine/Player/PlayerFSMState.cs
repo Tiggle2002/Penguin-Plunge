@@ -50,7 +50,7 @@ namespace PenguinPlunge.AI
 
             if (colliders.Length > 0)
             {
-                return colliders.First(collider => CollisionExtensions.LayerInLayerMask(collider.gameObject.layer, obstacleLayer) && collider.GetComponent<Obstacle>()).GetComponent<Obstacle>();
+                return colliders.First(collider => CollisionExtensions.LayerInLayerMask(collider.gameObject.layer, obstacleLayer) && collider.GetComponentInParent<Obstacle>()).GetComponentInParent<Obstacle>();
             }
             return null;
         }

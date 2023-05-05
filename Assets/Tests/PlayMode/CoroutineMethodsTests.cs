@@ -17,7 +17,7 @@ namespace PenguinPlunge.Tests
             float duration = 1;
 
             float value = startValue;
-            yield return CoroutineMethods.ChangeValueOverTime(startValue, endValue, duration, v => value = v);
+            yield return CoroutineMethods.ChangeValueOverTimeCoroutine(startValue, endValue, duration, v => value = v);
            
             Assert.AreEqual(endValue, value);
         }

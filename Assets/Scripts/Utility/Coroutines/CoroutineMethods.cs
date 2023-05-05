@@ -7,17 +7,13 @@ namespace PenguinPlunge.Utility
 {
     public static class CoroutineMethods
     {
-        public static void AnimateSprite(this SpriteRenderer sr, float interval, params Sprite[] sprites)
+        public static void Disable(this GameObject gameObject, float delay)
         {
-            Animate().StartAsCoroutine();
-
-            IEnumerator Animate()
+            Disable().StartAsCoroutine();
+            IEnumerator Disable()
             {
-                foreach (var sprite in sprites) 
-                {
-                    sr.sprite = sprite;
-                    yield return new WaitForSeconds(interval);
-                }
+                yield return new WaitForSeconds(delay);
+                gameObject.SetActive(false);
             }
         }
 
@@ -33,7 +29,24 @@ namespace PenguinPlunge.Utility
             }
         }
 
-        public static IEnumerator ChangeValueOverTime(float startValue, float endValue, float duration, Action<float> valueSetter)
+        public static void EnableForDuration(this Collider2D component, float duration)
+        {
+            EnableComponentForTime().StartAsCoroutine();
+
+            IEnumerator EnableComponentForTime()
+            {
+                component.enabled = true;
+                yield return new WaitForSeconds(duration);
+                component.enabled = false;
+            }
+        }
+
+        public static void ChangeOverTime(float startValue, float endValue, float duration, Action<float> valueSetter) 
+        {
+            ChangeValueOverTimeCoroutine(startValue, endValue, duration, valueSetter).StartAsCoroutine();
+        }
+
+        public static IEnumerator ChangeValueOverTimeCoroutine(float startValue, float endValue, float duration, Action<float> valueSetter)
         {
             float currentTime = 0;
 

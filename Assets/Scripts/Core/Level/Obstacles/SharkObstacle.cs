@@ -72,7 +72,10 @@ namespace PenguinPlunge.Core
             sharkIncomingFeedback.PlayFeedbacks();
         }
 
-        private void AlignPositionToPlayerHeight() => transform.TranslateY(GetVerticalMovement());
+        private void AlignPositionToPlayerHeight()
+        {
+            transform.TranslateY(GetVerticalMovement());
+        }
 
         private float GetVerticalMovement() => transform.YDirectionToPlayer() * verticalSpeed * Time.deltaTime;
 
@@ -92,7 +95,7 @@ namespace PenguinPlunge.Core
             ReturnToSharkPoolAndStopFeedback();
         }
 
-        private float GetMovementX() => -1 * horizontalSpeed * Time.deltaTime * 15;
+        private float GetMovementX() => -1 * horizontalSpeed * Time.deltaTime;
 
         private void SetSharkInitialPositionAndPlayFeedback()
         {

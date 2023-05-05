@@ -22,15 +22,16 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   obstacleSize: 1
+  colliderSize: {x: 1.75, y: 7}
   sprite: {fileID: 6643993680240625833, guid: 1dd88048148afbd4788497ebfa807679, type: 3}
   animationName: YellowJellyfish - Medium_Idle
   layouts:
   - position: 0
-    height: {x: 30, y: 33}
+    height: 32.5
     availableRotations: 000000002d0000003b010000
   - position: 1
-    height: {x: 22, y: 30}
+    height: 27.75
     availableRotations: 000000005a000000
   - position: 2
-    height: {x: 19, y: 22}
+    height: 19.5
     availableRotations: 000000002d0000003b010000

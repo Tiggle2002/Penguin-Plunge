@@ -7,8 +7,9 @@ using System.Linq;
 
 namespace PenguinPlunge.Core
 {
-    public class LevelScroller : MonoBehaviour, TEventListener<GameEvent>
+    public class LevelScroller : SerializedMonoBehaviour, TEventListener<GameEvent>
     {
+        [ShowInInspector, ReadOnly]
         public float CurrentSpeed => currentSpeed;
 
         [SerializeField, HideLabel, Title("Level Scrolling Speed", TitleAlignment = TitleAlignments.Centered)]
@@ -50,7 +51,7 @@ namespace PenguinPlunge.Core
 
         private IEnumerator EndScrollingOverTime()
         {
-            yield return StartCoroutine(CoroutineMethods.ChangeValueOverTime(currentSpeed, 0, 3, s => currentSpeed = s));
+            yield return StartCoroutine(CoroutineMethods.ChangeValueOverTimeCoroutine(currentSpeed, 0, 3, s => currentSpeed = s));
             StopAllCoroutines();
         }
 

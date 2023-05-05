@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fe78c7bdc924428b870bab121ab4d, type: 3}
   m_Name: PlayerMovementData
   m_EditorClassIdentifier: 
-  maxSpeed: 16
-  maxAcceleration: 135
-  downwardGravityScale: 2.4
-  upwardGravityScale: 5
+  maxSpeed: 12
+  maxAcceleration: 150
+  downwardGravityScale: 3.5
+  upwardGravityScale: 6
   groundCheckBoxSize: 0.1
   defaultGravityScale: 1

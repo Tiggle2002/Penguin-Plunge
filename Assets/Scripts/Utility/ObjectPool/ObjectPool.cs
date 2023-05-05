@@ -33,7 +33,6 @@ namespace PenguinPlunge.Pooling
         {
             this.prefabToPool = prefabToPool;
             this.parentTransform = parentTransform;
-            this.poolSize = poolSize;
 
             for (int i = 0; i < poolSize; i++)
             {
@@ -47,6 +46,7 @@ namespace PenguinPlunge.Pooling
             newObj.gameObject.SetActive(false);
             newObj.ReturnObject = Return;
             objects.Push(newObj);
+            poolSize++;
 
             return newObj;
         }
@@ -55,7 +55,7 @@ namespace PenguinPlunge.Pooling
 
         private T GetOrCreate(Vector2 position = default)
         {
-            if (Count == 0) return null;
+            if (Count == 0) Create();
 
             var t = objects.Pop();
             t.gameObject.SetActive(true);

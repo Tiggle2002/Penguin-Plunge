@@ -14,6 +14,8 @@ namespace PenguinPlunge.Core
         [SerializeField]
         private float speedIncrease;
         [SerializeField]
+        private float verticalSpeedIncrease;
+        [SerializeField]
         private float maxSpeed;
         private GameObject obstaclePrefab;
         private ObjectPool<SharkObstacle> objectPool;
@@ -36,6 +38,7 @@ namespace PenguinPlunge.Core
                 ActivateShark();
                 yield return new WaitForSeconds(timeBetweenSpawns);
             }
+            IncreaseSpeed();
             DecreaseTimeBetweenSpawns();
         }
 
@@ -48,14 +51,14 @@ namespace PenguinPlunge.Core
         private void IncreaseSpeed()
         {
             sharkHorizontalSpeed += speedIncrease;
-            sharkVerticalSpeed += speedIncrease;
+            sharkVerticalSpeed += verticalSpeedIncrease;
             sharkHorizontalSpeed = Mathf.Clamp(sharkHorizontalSpeed, 0, maxSpeed);
             sharkVerticalSpeed = Mathf.Clamp(sharkVerticalSpeed, 0, maxSpeed);
         }
 
         private void DecreaseTimeBetweenSpawns()
         {
-            timeBetweenSpawns -= 0.3f;
+            timeBetweenSpawns -= 0.1f;
             timeBetweenSpawns = Mathf.Clamp(timeBetweenSpawns, 0.5f, 1.5f);
         }
 
