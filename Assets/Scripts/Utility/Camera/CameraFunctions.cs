@@ -18,6 +18,8 @@ namespace PenguinPlunge.Core
             }
         }
 
+        public static float ScreenWidth => Camera.orthographicSize * Camera.aspect * 2; 
+
         private static Camera camera;
 
         static CameraFunctions()
@@ -30,5 +32,7 @@ namespace PenguinPlunge.Core
             Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera);
             return GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
         }
+
+   
     }
 }

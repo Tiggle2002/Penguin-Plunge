@@ -42,7 +42,7 @@ ParticleSystem:
   m_GameObject: {fileID: 7816332266071309163}
   serializedVersion: 8
   lengthInSec: 0.1
-  simulationSpeed: 1
+  simulationSpeed: 2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.8303867, b: 0.28930813, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1363,8 +1363,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
-    mode: 0
+    enabled: 1
+    mode: 1
     timeMode: 0
     fps: 30
     frameOverTime:
@@ -1482,7 +1482,12 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: 1640807311, guid: 020a5e300da65b84f946defdab31c248, type: 3}
+    - sprite: {fileID: 1458794181, guid: 020a5e300da65b84f946defdab31c248, type: 3}
+    - sprite: {fileID: -213844427, guid: 020a5e300da65b84f946defdab31c248, type: 3}
+    - sprite: {fileID: 1203029660, guid: 020a5e300da65b84f946defdab31c248, type: 3}
+    - sprite: {fileID: -428889896, guid: 020a5e300da65b84f946defdab31c248, type: 3}
+    - sprite: {fileID: 1963474635, guid: 020a5e300da65b84f946defdab31c248, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:

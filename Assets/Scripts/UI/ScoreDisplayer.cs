@@ -13,6 +13,8 @@ namespace PenguinPlunge.UI
         private TextMeshProUGUI highestScoreTMP;
         [SerializeField, FoldoutGroup("Component References"), Required]
         private TextMeshProUGUI scoreCounterTMP;
+        [SerializeField, FoldoutGroup("Component References"), Required]
+        private TextMeshProUGUI fishCountTMP;
 
         public void Update() => DisplayScoreCount();
 
@@ -20,6 +22,7 @@ namespace PenguinPlunge.UI
         {
             highestScoreTMP.DisplayHighScore();
             scoreCounterTMP.DisplayScore();
+            fishCountTMP.DisplayFishCollectedScore();
         }
     }
 }
