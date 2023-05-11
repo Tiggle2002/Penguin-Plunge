@@ -34,10 +34,14 @@ namespace PenguinPlunge.AI
 #endif
         }
 
-        public override void OnEnter() { }
+        public override void OnEnter() 
+        {
+            PlaySwimAnimation();
+        }
 
         public override void RunState() 
         {
+            if (!PlayerInput.InputEnabled) return;
             base.RunState();
             PlaySwimAnimation();
             FSM.Movement.PlayVerticalMovementFeedback();
@@ -45,6 +49,8 @@ namespace PenguinPlunge.AI
 
         public override void FixedRunState() 
         {
+            if (!PlayerInput.InputEnabled) return;
+
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
             if (Input.GetKey(KeyCode.Space))
             {
