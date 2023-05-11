@@ -9,6 +9,7 @@ namespace PenguinPlunge.AI
     {
         protected PlayerFSM FSM;
         protected LayerMask obstacleLayer;
+        protected static Obstacle obstacleHit;
 
         public PlayerFSMState()
         {
@@ -21,7 +22,7 @@ namespace PenguinPlunge.AI
 
         public override void OnEnter() { }
 
-        public override void RunState() { }
+        public override void RunState() => CheckForObstacle();
 
         public override void FixedRunState() { }
 
@@ -40,21 +41,25 @@ namespace PenguinPlunge.AI
         }
         #endregion
 
-        protected bool HitByObstacle() => FSM.Collider.IsTouchingLayers(obstacleLayer);
+        protected bool HitByObstacle() => obstacleHit != null;
 
-        public Obstacle GetObstacleHit()
+        private void CheckForObstacle()
         {
             Bounds overlapBox = new Bounds(FSM.Collider.bounds.center + (Vector3)FSM.Collider.offset, FSM.Collider.bounds.size);
 
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(overlapBox.center, overlapBox.size, 0);
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(overlapBox.center, overlapBox.size, 0, obstacleLayer);
 
             if (colliders.Length > 0)
             {
-                return colliders.First(collider => CollisionExtensions.LayerInLayerMask(collider.gameObject.layer, obstacleLayer) && collider.GetComponentInParent<Obstacle>()).GetComponentInParent<Obstacle>();
+                foreach (var collider in colliders)
+                {
+                    if (collider.InLayer(obstacleLayer) && collider.GetComponentInParent<Obstacle>())
+                    {
+                        obstacleHit = collider.GetComponentInParent<Obstacle>();
+                        break;
+                    }
+                }
             }
-            return null;
         }
-
-
     }
 }

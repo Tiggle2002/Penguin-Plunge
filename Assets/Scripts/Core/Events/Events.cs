@@ -22,5 +22,5 @@ namespace PenguinPlunge.Core
         }
     }
 
-    public enum GameEventType { GameStarted, GameOver }
+    public enum GameEventType { None, GameStart, GameTogglePause, GameRestart, GameOver }
 }

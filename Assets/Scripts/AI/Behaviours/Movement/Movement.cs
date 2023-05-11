@@ -15,7 +15,7 @@ namespace PenguinPlunge.Core
         void SetScale(float newScale, float duration);
     }
 
-public sealed class Movement : MonoBehaviour, IGravity
+    public sealed class Movement : MonoBehaviour, IGravity
     {
         [SerializeField, FoldoutGroup("References")]
         private MovementData movementData;
@@ -26,6 +26,7 @@ public sealed class Movement : MonoBehaviour, IGravity
         private BoxCollider2D groundDetector;
 
         private LayerMask blockLayer;
+        private float lastJumpTime;
         #endregion
 
         #region Feedbacks
@@ -50,7 +51,7 @@ public sealed class Movement : MonoBehaviour, IGravity
         }
 
         #region Movement Methods
-        public bool Grounded => Physics2D.BoxCast(groundDetector.bounds.center, groundDetector.bounds.size, 0f, Vector2.down, movementData.groundCheckBoxSize, blockLayer);
+        public bool IsGrounded => Physics2D.BoxCast(groundDetector.bounds.center, groundDetector.bounds.size, 0f, Vector2.down, movementData.groundCheckBoxSize, blockLayer);
 
         public float UpwardScale => movementData.upwardGravityScale;
 
@@ -61,13 +62,13 @@ public sealed class Movement : MonoBehaviour, IGravity
             if (verticalMovementFeedback == null) return;
 
 #if UNITY_EDITOR || UNITY_WEBGL || UNITY_STANDALONE
-            if (!Grounded && Input.GetKey(KeyCode.Space))
+            if (!IsGrounded && Input.GetKey(KeyCode.Space))
             {
                 verticalMovementFeedback.PlayFeedbacks();
             }
 #endif
 #if UNITY_IOS || UNITY_ANDROID
-            if (!Grounded && Input.touchCount > 0)
+            if (!IsGrounded && Input.touchCount > 0)
             {
                 verticalMovementFeedback.PlayFeedbacks();
             }
@@ -82,7 +83,7 @@ public sealed class Movement : MonoBehaviour, IGravity
         {
             if (horizontalMovementFeedback == null) return;
 
-            if (Grounded)
+            if (IsGrounded)
             {
                 horizontalMovementFeedback.PlayFeedbacks();
             }
@@ -108,11 +109,11 @@ public sealed class Movement : MonoBehaviour, IGravity
         private IEnumerator PlayFeedbackOnLand()
         {
             yield return new WaitForSeconds(0.5f);
-            if (Grounded)
+            if (IsGrounded)
             {
                 yield break;
             }
-            yield return new WaitUntil(() => Grounded);
+            yield return new WaitUntil(() => IsGrounded);
             landFeedback?.PlayFeedbacks();
         }
 
@@ -120,6 +121,7 @@ public sealed class Movement : MonoBehaviour, IGravity
         {
             landFeedback?.PlayFeedbacks();
         }
+
         private int previousScore;
         public void IncreaseFeedbackIntensityWithRespectToScore()
         {
@@ -144,7 +146,7 @@ public sealed class Movement : MonoBehaviour, IGravity
 
         private void DrawGroundCheck()
         {
-            Color rayColour = Grounded ? Color.green : Color.red;
+            Color rayColour = IsGrounded ? Color.green : Color.red;
 
             Debug.DrawRay(groundDetector.bounds.center + new Vector3(groundDetector.bounds.extents.x, 0), Vector2.down * (groundDetector.bounds.extents.y + movementData.groundCheckBoxSize), rayColour);
             Debug.DrawRay(groundDetector.bounds.center - new Vector3(groundDetector.bounds.extents.x, 0), Vector2.down * (groundDetector.bounds.extents.y + movementData.groundCheckBoxSize), rayColour);

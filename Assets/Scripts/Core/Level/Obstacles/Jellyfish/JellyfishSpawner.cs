@@ -10,27 +10,31 @@ namespace PenguinPlunge.Core
 {
     public class JellyfishSpawner : BaseSpawner
     {
-        [SerializeField, TitleGroup("Range of Jellyfish that can be Spawned", Alignment = TitleAlignments.Centered), HideLabel]
+        [SerializeField, MinMaxSlider(5f, 30f), TitleGroup("Range of Jellyfish that can be Spawned", Alignment = TitleAlignments.Centered), HideLabel]
         private Vector2Int potentialJellyfishCount = new(6, 10);
-        [SerializeField, MinMaxSlider(10f, 100f), TitleGroup("Range of Obstacle Spawning Distance", Alignment=TitleAlignments.Centered)]
+
+        [SerializeField, MinMaxSlider(10f, 100f), TitleGroup("Range of Obstacle Spawning Distance", Alignment=TitleAlignments.Centered), HideLabel]
         private Vector2 potentialDistanceApart;
-        [SerializeField, TitleGroup("Distance to Subtract Each Spawn Cycle", Alignment=TitleAlignments.Centered), HideLabel]
+
+        [SerializeField, Range(1f, 10f), TitleGroup("Distance Between Jellyfish to Subtract Each Spawn Cycle", Alignment=TitleAlignments.Centered), HideLabel]
         private float distanceToSubtractionEachSpawnCycle;
 
-        [SerializeField]
-        private List<ObjectLayout[]> fixedLayouts;
+        [SerializeField, Required]
+        private JellyfishLayoutData fixedLayoutData;
 
         private ObjectPool<JellyfishObstacle> obstaclePool;
-
         private JellyfishObstacle recentSpawn;
         private ObstaclePosition currentObstaclePos;
         private Size currentObstacleSize;
+
+        private readonly Vector2 MinDistanceApartRange = new Vector2(15f, 35f);
+        private readonly int MaxJellyfishCount = 20;
 
         private int JellyfishCountThisCycle => potentialJellyfishCount.RandomInRange();
 
         private float SpawnerPosition => transform.position.x;
 
-        private float SpawnPosX
+        private float SpawnPosXAccordingToRecentSpawn
         {
             get
             {
@@ -42,9 +46,6 @@ namespace PenguinPlunge.Core
                 return recentSpawn.transform.position.x + potentialDistanceApart.RandomInRange();
             }
         }
-
-        private readonly Vector2 MinDistanceApartRange = new Vector2(15f, 35f);
-        private readonly int MaxJellyfishCount = 20;
 
         public void Awake()
         {
@@ -58,15 +59,17 @@ namespace PenguinPlunge.Core
             }
         }
 
-        public void AddPremadeLayout(ObjectLayout[] layout)
-        {
-            fixedLayouts.Add(layout);
-        }
-
         [Button("Spawn Premade Layout")]
-        private void SpawnPremadeLayout(int index)
+        private void SpawnPremadeLayout()
         {
-            SpawnFixedLayout(index);
+            if (fixedLayoutData.CanSpawnADifferentLayout())
+            {
+                SpawnFixedLayout();
+            }
+            else
+            {
+                Debug.Log("Jellyfish Spawner has no Available Layouts!");
+            }
         }
 
         [Button("Spawn")]
@@ -75,47 +78,18 @@ namespace PenguinPlunge.Core
             int jellyfishObstacleCount = JellyfishCountThisCycle;
             for (int i = 0; i < jellyfishObstacleCount; i++)
             {
-                int remainingJellyfishToSpawn = jellyfishObstacleCount - i;
-
-                int index = Random.Range(0, fixedLayouts.Count);
-                if (Random.value > 0.25f)
+                if (fixedLayoutData.CanSpawnADifferentLayout() && Random.value < 0.25f)
                 {
-                    SetJellyfishPositionX();
-                    recentSpawn.DisableWhenPassedAndOutOfSight().StartAsCoroutine();
-                    SetJellyfishHeightAndRotation(recentSpawn);
+                    SpawnFixedLayout();
                 }
                 else
                 {
-                    //i += fixedLayouts[index].Length - 1;
-                    SpawnFixedLayout(index);
+                    SpawnIndividualJellyfish();
                 }
             }
             recentSpawn = null;
             IncreasePotentialJellyfishCount();
             ReduceSpawnDistance();
-
-            //List<ObjectLayout[]> GetLayoutsBelowAllowRemainingJellyfish(int maxCountRemaining)
-            //{
-            //    List<ObjectLayout[]> potentialLayouts = fixedLayouts.Where(layout => layout.Length <= maxCountRemaining).ToList();
-
-            //    return potentialLayouts.Count > 0;
-            //}
-
-            //void SpawnJellyfishOrLayout()
-            //{
-            //    int index = Random.Range(0, fixedLayouts.Count);
-            //    if (Random.value > 0.25f)
-            //    {
-            //        SetJellyfishPositionX();
-            //        recentSpawn.DisableWhenPassedAndOutOfSight().StartAsCoroutine();
-            //        SetJellyfishHeightAndRotation(recentSpawn);
-            //    }
-            //    else if (fixedLayouts[index].Length <= jellyfishObstacleCount - i)
-            //    {
-            //        i += fixedLayouts[index].Length - 1;
-            //        SpawnFixedLayout(index);
-            //    }
-            //}
 
             void IncreasePotentialJellyfishCount()
             {
@@ -131,42 +105,53 @@ namespace PenguinPlunge.Core
             }
         }
 
-
-
-        private void CarryOutSpawnCycle()
+        private void SpawnIndividualJellyfish()
         {
-
+            SetJellyfishPositionX();
+            recentSpawn.DisableWhenPassedAndOutOfSight().StartAsCoroutine();
+            SetJellyfishHeightAndRotation(recentSpawn);
         }
 
-        private void SpawnFixedLayout(int index)
+        private void SpawnFixedLayout()
         {
-            ObjectLayout[] layouts = fixedLayouts[index];
-            float startX = SpawnPosX;
+            IndividualJellyfishLayout[] layouts = fixedLayoutData.GetRandomDifferentLayoutAccordingToScore();
+            float startX = SpawnPosXAccordingToRecentSpawn;
             foreach (var layout in layouts)
             {
                 recentSpawn = obstaclePool.Get();
-                float spawnX = startX + layout.Offset.x;
-                recentSpawn.transform.SetX(spawnX);
-                recentSpawn.SetToMatchPremadeLayout(layout.Offset.y, layout.Rotation, layout.Size);
+                recentSpawn.transform.SetX(startX);
+                recentSpawn.SetToMatchPremadeLayout(layout.Offset, layout.Rotation, layout.Size);
                 recentSpawn.DisableWhenPassedAndOutOfSight().StartAsCoroutine();
             }
         }
 
         private void SetJellyfishPositionX()
         {
-            float PositionX = SpawnPosX;
+            float PositionX = SpawnPosXAccordingToRecentSpawn;
             recentSpawn = obstaclePool.Get();
             recentSpawn.transform.SetX(PositionX);
         }
 
         private void SetJellyfishHeightAndRotation(JellyfishObstacle jellyfish)
         {
-            currentObstaclePos = currentObstaclePos.GetRandomEnumValueExcluding();
+            currentObstaclePos = SelectJellyfishPosition();
             currentObstacleSize = currentObstacleSize.GetRandomEnumValueExcluding();
             jellyfish.SetToMatchPosition(currentObstaclePos, currentObstacleSize);
         }
 
-
+        int counter = 0;
+        private ObstaclePosition SelectJellyfishPosition()
+        {
+            counter++;
+            if (counter % 2 ==0)
+            {
+                return ObstaclePosition.Bottom;
+            }
+            else
+            {
+                return currentObstaclePos.GetRandomEnumValueExcluding();
+            }
+        }
 
         public override bool IsFinished() => obstaclePool.AtCapacity;
     }

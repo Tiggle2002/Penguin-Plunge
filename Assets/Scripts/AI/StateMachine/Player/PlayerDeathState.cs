@@ -20,8 +20,7 @@ namespace PenguinPlunge.AI
         public override void OnEnter() 
         {
             GameEvent.Trigger(GameEventType.GameOver);
-            playShockAnimation = GetObstacleHit().Type != ObstacleType.Shark;
-            FSM.Movement.rb.HaltMovement();
+            playShockAnimation = obstacleHit.Type != ObstacleType.Shark;
         }
 
         public override void RunState() 
@@ -29,6 +28,7 @@ namespace PenguinPlunge.AI
             if (playShockAnimation && shockTimeRemaning > 0)
             {
                 FSM.Animator.Play("Electrocuted");
+                FSM.Movement.rb.HaltMovement();
                 shockTimeRemaning -= Time.deltaTime;
             }
             else if (Mathf.Approximately(FSM.Rigidbody.velocity.y, 0))

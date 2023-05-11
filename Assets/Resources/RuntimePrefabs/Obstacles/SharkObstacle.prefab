@@ -419,8 +419,8 @@ MonoBehaviour:
         m_Calls: []
   DebugActive: 0
   FeedbacksList:
-  - rid: 6441541191126745094
   - rid: 6441541214824824832
+  - rid: 6441541191126745094
   KeepPlayModeChanges: 0
   PerformanceMode: 0
   ForceStopFeedbacksOnDisable: 1
@@ -444,10 +444,10 @@ MonoBehaviour:
           ExcludeFromHoldingPauses: 0
           ContributeToTotalDuration: 1
           InitialDelay: 0
-          CooldownDuration: 0
+          CooldownDuration: 0.2
           InterruptsOnStop: 1
           NumberOfRepeats: 0
-          RepeatForever: 1
+          RepeatForever: 0
           DelayBetweenRepeats: 1
           MMFeedbacksDirectionCondition: 0
           PlayDirection: 0
@@ -618,8 +618,8 @@ MonoBehaviour:
           CooldownDuration: 0
           InterruptsOnStop: 1
           NumberOfRepeats: 0
-          RepeatForever: 1
-          DelayBetweenRepeats: 0.25
+          RepeatForever: 0
+          DelayBetweenRepeats: 0
           MMFeedbacksDirectionCondition: 0
           PlayDirection: 0
           ConstantIntensity: 0
@@ -668,7 +668,7 @@ MonoBehaviour:
         Owner: {fileID: 720822301070967608}
         DebugActive: 0
         Mode: 2
-        DeclaredDuration: 0
+        DeclaredDuration: 1
         ObjectPoolSize: 10
         MutualizePools: 1
         ParentTransform: {fileID: 0}
@@ -1615,7 +1615,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

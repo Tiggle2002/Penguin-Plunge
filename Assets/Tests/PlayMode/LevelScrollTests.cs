@@ -12,7 +12,7 @@ public class LevelScrollTests
         var levelScrollerObject = new GameObject();
         levelScrollerObject.AddComponent<LevelScroller>();
 
-        GameEvent.Trigger(GameEventType.GameStarted);
+        GameEvent.Trigger(GameEventType.GameStart);
         yield return new WaitForSeconds(1f);
 
         Assert.IsTrue(levelScrollerObject.transform.position.x < 0);
@@ -24,7 +24,7 @@ public class LevelScrollTests
         var levelScrollerObject = new GameObject();
         var levelScroller = levelScrollerObject.AddComponent<LevelScroller>();
 
-        GameEvent.Trigger(GameEventType.GameStarted);
+        GameEvent.Trigger(GameEventType.GameStart);
         yield return new WaitForSeconds(3f);
         GameEvent.Trigger(GameEventType.GameOver);
         yield return new WaitForSeconds(3f);
@@ -40,7 +40,7 @@ public class LevelScrollTests
         // Arrange
         var levelScrollerObject = new GameObject();
         var levelScroller = levelScrollerObject.AddComponent<LevelScroller>();
-        var gameEvent = new GameEvent(GameEventType.GameStarted);
+        var gameEvent = new GameEvent(GameEventType.GameStart);
 
         // Act
         levelScroller.OnEvent(gameEvent);

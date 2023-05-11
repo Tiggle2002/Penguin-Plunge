@@ -53,7 +53,7 @@ namespace PenguinPlunge.Core
              IEnumerator SetFinished()
             {
                 active = true;
-                yield return new WaitForSeconds(7.5f);
+                yield return new WaitForSeconds(12.5f);
                 active = false;
             }
         }

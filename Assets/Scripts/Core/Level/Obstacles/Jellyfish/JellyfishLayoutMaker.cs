@@ -1,29 +1,43 @@
 using PenguinPlunge.Core;
-using PenguinPlunge.Data;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JellyfishLayoutMaker : MonoBehaviour
+namespace PenguinPlunge.Data
 {
-    [Button("Add Children To A Fixed Layout")]
-    public void SaveCurrentDataToGenerator()
+    public class JellyfishLayoutMaker : MonoBehaviour
     {
-        JellyfishObstacle[] jellyfishChildren = GetComponentsInChildren<JellyfishObstacle>();
+        [SerializeField, Title("Points Required for Layout to be Spawned", TitleAlignment = TitleAlignments.Centered)]
+        private int pointsRequired;
 
-        List<ObjectLayout> layoutsOfChildren = new();
+        [SerializeField, Required]
+        private JellyfishLayoutData jellyfishDataStructure;
+    
 
-        foreach (var child in jellyfishChildren)
+        [Button("Add Children To A Fixed Layout")]
+        public void SaveCurrentDataToGenerator()
         {
-            Size size = child.Size;
-            Vector2 position = child.transform.position;
-            float rotation = child.transform.rotation.eulerAngles.z;
+            JellyfishObstacle[] jellyfishChildren = GetComponentsInChildren<JellyfishObstacle>();
+            List<IndividualJellyfishLayout> layoutsOfChildren = new();
 
-            ObjectLayout childLayout = new(position, rotation, size);
-            layoutsOfChildren.Add(childLayout);
+            foreach (var child in jellyfishChildren)
+            {
+                IndividualJellyfishLayout childLayout = CreateLayoutFromChild(child);
+                layoutsOfChildren.Add(childLayout);
+            }
+            AddLayoutToLayoutDataStructure();
+
+            IndividualJellyfishLayout CreateLayoutFromChild(JellyfishObstacle child)
+            {
+                Size size = child.Size;
+                Vector2 position = child.transform.position;
+                float rotation = child.transform.rotation.eulerAngles.z;
+
+                return new IndividualJellyfishLayout(position, rotation, size);
+            }
+
+            void AddLayoutToLayoutDataStructure() => jellyfishDataStructure.AddLayout(layoutsOfChildren.ToArray(), pointsRequired);
         }
-        JellyfishSpawner jellyfishSpawner = FindObjectOfType<JellyfishSpawner>();
-        jellyfishSpawner.AddPremadeLayout(layoutsOfChildren.ToArray());
     }
 }

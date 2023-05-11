@@ -14,18 +14,20 @@ namespace PenguinPlunge.AI
 
         public override void EvaluateState() 
         {
+            if (!PlayerInput.InputEnabled) return;
+
             if (HitByObstacle())
             {
                 FSM.TransitionToState(PlayerTransition.Hit);
             }
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-            if (FSM.Movement.Grounded && !Input.GetKey(KeyCode.Space))
+            if (FSM.Movement.IsGrounded && !Input.GetKey(KeyCode.Space))
             {
                 FSM.TransitionToState(PlayerTransition.Grounded);
             }
 #endif
 #if UNITY_IOS || UNITY_ANDROID
-            if (FSM.Movement.Grounded && Input.touchCount == 0)
+            if (FSM.Movement.IsGrounded && Input.touchCount == 0)
             {
                 FSM.TransitionToState(PlayerTransition.Grounded);
             }
@@ -36,6 +38,7 @@ namespace PenguinPlunge.AI
 
         public override void RunState() 
         {
+            base.RunState();
             PlaySwimAnimation();
             FSM.Movement.PlayVerticalMovementFeedback();
         }

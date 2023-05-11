@@ -1,6 +1,8 @@
 using PenguinPlunge.Core;
 using PenguinPlunge.Data;
+using PenguinPlunge.Utility;
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -115,6 +117,19 @@ public static class PhysicsMovement
     public static void UpdateGravityScale(this Rigidbody2D rb, IGravity gravity)
     {
         rb.gravityScale = rb.Falling() ? gravity.DownwardScale : gravity.UpwardScale;
+    }
+
+    public static void HaltGravity(this Rigidbody2D rb, float time)
+    {
+        float gravityScale = rb.gravityScale;
+        HaltGravityForTime(time).StartAsCoroutine();
+
+        IEnumerator HaltGravityForTime(float time)
+        {
+            rb.gravityScale = 0;
+            yield return new WaitForSeconds(time);
+            rb.gravityScale = gravityScale;
+        }
     }
 }
 

@@ -88,6 +88,7 @@ namespace PenguinPlunge.Core
             SetSharkInitialPositionAndPlayFeedback();
             while (warningSpriteRenderer.VisibleByCamera() || transform.IsRightOfPlayer())
             {
+                sharkSwimFeedback.PlayFeedbacks();
                 float vectorTranslationX = GetMovementX();
                 transform.TranslateX(vectorTranslationX);
                 yield return new WaitForFixedUpdate();
@@ -99,7 +100,6 @@ namespace PenguinPlunge.Core
 
         private void SetSharkInitialPositionAndPlayFeedback()
         {
-            sharkSwimFeedback.PlayFeedbacks();
             transform.SetX(Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, 0f)).x + sharkWarningSprite.bounds.size.x);
         }
 

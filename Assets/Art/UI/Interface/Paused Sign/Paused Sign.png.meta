@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f76f92229e1aafc4a914ca222b568ee0
+guid: b2a67f38cbea87c4ba871fa23fc38c52
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -129,34 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Eels - Present0
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 53
-        width: 640
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6cff950bb0a4f84a0800000000000000
-      internalID: -6588966315755962426
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Eels - Present1
+      name: Paused Sign0
       rect:
         serializedVersion: 2
         x: 1
         y: 1
-        width: 640
-        height: 50
+        width: 249
+        height: 200
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 443642415f5dce2e0800000000000000
-      internalID: -2095064478052490428
+      spriteID: 48dbbe0274adfd890800000000000000
+      internalID: -7430980861108175484
       vertices: []
       indices: 
       edges: []
@@ -181,8 +160,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Eels - Present0: -6588966315755962426
-      Eels - Present1: -2095064478052490428
+      Paused Sign0: -7430980861108175484
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

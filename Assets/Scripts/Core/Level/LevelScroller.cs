@@ -28,6 +28,12 @@ namespace PenguinPlunge.Core
             currentSpeed = initialSpeed;
         }
 
+        [Button("Set Speed")]
+        private void SetSpeed(float speed)
+        {
+            currentSpeed = speed;
+        }
+
         private IEnumerator Scroll()
         {
             yield return new WaitForSeconds(0.75f);
@@ -59,7 +65,7 @@ namespace PenguinPlunge.Core
         {
             switch (gameEvent.type)
             { 
-                case GameEventType.GameStarted:
+                case GameEventType.GameStart:
                     StartCoroutine(Scroll());
                     break;
                case GameEventType.GameOver:

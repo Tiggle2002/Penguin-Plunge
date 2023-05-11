@@ -8,8 +8,6 @@ namespace PenguinPlunge.Core
 {
     public class EelObstacle : Obstacle
     {
-        public float lateDelay;
-
         [SerializeField]
         private Sprite warningSprite;
         [SerializeField]
@@ -31,7 +29,7 @@ namespace PenguinPlunge.Core
         public void Awake()
         {
             eelAnimator = transform.GetChild(0).GetComponent<Animator>();
-            eelCollider = transform.GetChild(0).GetComponent<BoxCollider2D>();
+            eelCollider = GetComponent<BoxCollider2D>();
         }
 
 
@@ -55,6 +53,7 @@ namespace PenguinPlunge.Core
             {
                 SetPresentState();
                 yield return new WaitForSeconds(LateStartDelay);
+                Mathf.Clamp(LateStartDelay, 3f, 3.5f);
                 ActivateImmediate();
             }
         }
@@ -62,13 +61,17 @@ namespace PenguinPlunge.Core
         [Button("Debug Present State")]
         private void SetPresentState()
         {
-            eelAnimator.Play("Present");
+            eelAnimator.Play("Idle");
         }
 
         [Button("Debug Swim State")]
         private void SetSwimState()
         {
             eelAnimator.Play("Swim", -1, 0);
+            if (!eelSwimFeedback.IsPlaying)
+            {
+                eelSwimFeedback.PlayFeedbacks();
+            }
             eelCollider.EnableForDuration(EelLifeTimeLength);
             MoveColliderWithEel().StartAsCoroutine();
             gameObject.Disable(EelLifeTimeLength);

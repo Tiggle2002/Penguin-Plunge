@@ -34,7 +34,7 @@ public class ScoreCounterTests
         var counterObj = Resources.Load<GameObject>("RuntimePrefabs/ScoreCounterPrefab");
         var instantiatedCounterPrefab = GameObject.Instantiate(counterObj).AddComponent<LevelScroller>().gameObject.AddComponent<ScoreCounter>();
 
-        GameEvent.Trigger(GameEventType.GameStarted);
+        GameEvent.Trigger(GameEventType.GameStart);
         yield return new WaitForSeconds(2f);
         Assert.IsTrue(instantiatedCounterPrefab.Score != 0);
     }

@@ -61,12 +61,18 @@ namespace PenguinPlunge.Core
             SetHeightAndRotationToMatchCurrentPosition();
         }
 
-        public void SetToMatchPremadeLayout(float height, float rotation, Size size)
+        public void SetToMatchPremadeLayout(Vector2 offset, float rotation, Size size)
         {
             SetObstacleDataToMatchSize(size);
             PlayCurrentDataAnimation();
             capsuleCollider.size = sr.sprite.bounds.size;
-            SetHeightAndRotation(height, rotation);
+            SetPositionAndRotation(offset, rotation);
+
+            void SetPositionAndRotation(Vector2 offset, float rotation)
+            {
+                transform.position += (Vector3)offset;
+                transform.SetZRotation(rotation);
+            }
         }
 
         public void SetObstacleDataToMatchSize(Size size)

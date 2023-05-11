@@ -16,6 +16,8 @@ namespace PenguinPlunge.AI
 
         public override void EvaluateState() 
         {
+            if (!PlayerInput.InputEnabled) return;
+
             if (HitByObstacle())
             {
                 FSM.TransitionToState(PlayerTransition.Hit);
@@ -38,6 +40,7 @@ namespace PenguinPlunge.AI
 
         public override void RunState()
         {
+            base.RunState();
             IncreaseFeedbackIntensityWithRespectToScore();
             FSM.Movement.PlayHorizontalMovementFeedback();
         }

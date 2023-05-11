@@ -21,10 +21,6 @@ public abstract class FSM<Transition, State> : SerializedMonoBehaviour, IDisposa
         stateList = new List<FSMState<Transition, State>>();
     }
     #endregion
-    
-    #region Private Variables
-
-    #endregion
 
 #region Update Methods
     private void Awake() => AwakeFSM();

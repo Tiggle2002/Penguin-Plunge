@@ -50,13 +50,9 @@ namespace PenguinPlunge.Core
 
         public void OnEvent(GameEvent eventData)
         {
-            if (eventData.type == GameEventType.GameStarted)
+            if (eventData.type == GameEventType.GameStart)
             {
                 SetIntialSpawner();
-            }
-            else
-            {
-                currentSpawner = null;
             }
         }
 

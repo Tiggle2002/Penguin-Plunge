@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PenguinPlunge.Core
 {
-    public class Obstacle : MonoBehaviour
+    public class Obstacle : SerializedMonoBehaviour
     {
         public ObstacleType Type => obstacleType;
 

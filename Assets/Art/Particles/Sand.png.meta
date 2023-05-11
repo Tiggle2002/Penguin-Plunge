@@ -134,8 +134,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 8
-        height: 8
+        width: 16
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,10 +153,10 @@ TextureImporter:
       name: Sand_1
       rect:
         serializedVersion: 2
-        x: 8
+        x: 16
         y: 0
-        width: 8
-        height: 8
+        width: 16
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,10 +174,10 @@ TextureImporter:
       name: Sand_2
       rect:
         serializedVersion: 2
-        x: 16
+        x: 32
         y: 0
-        width: 8
-        height: 8
+        width: 16
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,10 +195,10 @@ TextureImporter:
       name: Sand_3
       rect:
         serializedVersion: 2
-        x: 24
+        x: 48
         y: 0
-        width: 8
-        height: 8
+        width: 16
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,10 +216,10 @@ TextureImporter:
       name: Sand_4
       rect:
         serializedVersion: 2
-        x: 32
+        x: 64
         y: 0
-        width: 8
-        height: 8
+        width: 16
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,27 +229,6 @@ TextureImporter:
       bones: []
       spriteID: 78407a8ab4ac6e84c818ee1c478c1022
       internalID: -428889896
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sand_5
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 0
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 879a622bdc166284fab19210d2635a00
-      internalID: 1963474635
       vertices: []
       indices: 
       edges: []
@@ -270,7 +249,6 @@ TextureImporter:
       Sand_3: 1203029660
       Sand_4: -428889896
       Sand_2: -213844427
-      Sand_5: 1963474635
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
