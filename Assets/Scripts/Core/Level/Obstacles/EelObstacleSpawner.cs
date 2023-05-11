@@ -9,7 +9,7 @@ namespace PenguinPlunge.Core
 {
     public class EelObstacleSpawner : BaseSpawner
     {
-        [TableMatrix(HorizontalTitle = "Eel Layouts", DrawElementMethod = "DrawTestLayout", ResizableColumns = false, RowHeight = 16), SerializeField]
+        [TableMatrix(HorizontalTitle = "Eel Layouts", DrawElementMethod = "DrawTestLayout", ResizableColumns = false, RowHeight = 16), SerializeField, InfoBox("Green = Eel | Red = Delayed Eel | None = No Eel")]
         private int[,] layouts = new int[4, 6];
 
         private EelObstacle[] eelObstacles;
@@ -26,7 +26,7 @@ namespace PenguinPlunge.Core
 
         public override bool IsFinished() => !active;
 
-        [Button("New Random Layout")]
+        [Button("Select & Spawn Random Layout")]
         private void ActivateLayout()
         {
             int[] layout = GetRandomLayout();
