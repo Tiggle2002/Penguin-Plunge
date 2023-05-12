@@ -1,5 +1,5 @@
-# Endless-Runner
- 
+# Penguin-Plunge
+
 ![PenguinPlungeLogo](https://github.com/Tiggle2002/Penguin-Plunge/blob/main/Assets/Art/UI/Interface/PenguinPlungeTextLarge.png)
 Welcome to the repository for Penguin Plunge
 
@@ -48,13 +48,34 @@ The frequency of shark appearances increases with the length of play, adding a l
  
  Architecture:
  I used a Finite State Machine, a pattern I'm strongly familiar with, to manage player behaviour. It makes for clear and efficient coding by representating the range of possible player behaviours, and allows for easy addition of more states should I ever want to increase the scale of the game.
- 
+ <table>
+<tr>
+<td><img src="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/Screenshots/CodeSamples/FSMStateManagement.png" alt="image description" height="50%"></td>
+  <td><img src="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/Screenshots/CodeSamples/FSMStateConstruction.png" alt="image description" height="50%"></td>
+ </tr>
+ </table>
 To manage large scale events, I employed the event bus pattern to faciliate the communication to classes that rely on that information without tight coupling. 
-
+ <table>
+<tr>
+<td><img src="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/Screenshots/CodeSamples/EventBus.png" alt="image description" height="50%"></td>
+  <td><img src="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/Screenshots/CodeSamples/EventReception.png" alt="image description" height="50%"></td>
+ </tr>
+ </table>
 To manage statistic collection, I used the singleton pattern which providing a global access point with getters to information such as the current score or the highest score achieved. It ensuring only one instance has the information, preventing any contradictions.
 
+To efficiently handle the abundance of jellyfish and shark obstacles in the game, I implemented object pooling, enabling optimized object reuse and better performance.
+ <table>
+<tr>
+<td><img src="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/Screenshots/CodeSamples/ObjectPool.png" alt="image description" height="50%"></td>
+  <td><img src="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/Screenshots/CodeSamples/ObjectPoolExtensionMethod.png" alt="image description" height="50%"></td>
+ </tr>
+ </table>
 
-
-Code Samples:
-
+I employed a diverse range of extension methods in my code to maintain clean and organized classes, simplifying the addition of similar features and promoting code reusability. This approach made it easier to expand and modify the game's functionality while keeping the codebase manageable and maintainable. Example Extension Methods: 
+ <table>
+<tr>
+<td><img src="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/Screenshots/CodeSamples/CoroutineExtensionMethods.png" alt="image description" height="50%"></td>
+  <td><img src="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/Screenshots/CodeSamples/ChangeValueOverTimeCoroutine.png" alt="image description" height="50%"></td>
+ </tr>
+ </table>
 
