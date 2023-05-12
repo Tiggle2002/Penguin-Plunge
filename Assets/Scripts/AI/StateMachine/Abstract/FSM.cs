@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class FSM<Transition, State> : SerializedMonoBehaviour, IDisposable
+public abstract class FSM<Transition, State> : SerializedMonoBehaviour, IDisposable where Transition : Enum where State : Enum
 {
     #region Public Variables
     [ShowInInspector, ReadOnly, PropertyOrder(0f)] protected string CurrentStateID { get { return CurrentState != null ? CurrentState.ID.ToString() : "None"; } }

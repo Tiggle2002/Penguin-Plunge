@@ -113,7 +113,7 @@ namespace PenguinPlunge.Core
         }
     }
 
-    public static partial class EventReception
+    public static class EventReception
     {
         public static void Subscribe<Event>(this TEventListener<Event> listener) where Event : struct
         {
