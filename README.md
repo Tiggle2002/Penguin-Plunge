@@ -4,7 +4,7 @@
 Welcome to the repository for Penguin Plunge
 
 Penguin Plunge is a Unity-based endless-runner game inspired by Jetpack Joyride, which was developed to improve my game design abilities and produce higher quality games.
-I encourage you to read the <a href="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/PenguinPlunge%20Design%20Document.pdf">Game Design Document</a> written to understand design decisions made in the game.
+I implore you to read the <a href="https://github.com/Tiggle2002/Penguin-Plunge/blob/main/PenguinPlunge%20Design%20Document.pdf">Game Design Document</a> written, to understand design decisions made in the game.
 
 Penguin Plunge is an endless runner game with simple yet engaging gameplay mechanics. The player controls a penguin that continuously swims forward, and must navigate through various obstacles to achieve a high score. The game features three types of obstacles: eels, jellyfish, and sharks.
 
